@@ -3,18 +3,17 @@
 ## Basics
 This repository contains a sample implementation of a long-running Kinvey Flex Serivce.
 
-In most cases Flex Services are used to handle a call to a custom endpoint or a collection hook. However, it is also possible to have a long-running Flex Service that does some processing outside of simply responding to external requests.
+In most cases Flex Services are used to handle a call to a custom endpoint or a collection hook. However, it is also possible to have a long-running Flex Service that does some processing on its own, unrelated to an outside request.
 
 Please check out the documentation for more information about [long-running Flex Services](https://devcenter.kinvey.com/nativescript/guides/flex-services#long-running-scripts).
 
-
 ## Flex Service Idling
-In Kinvey we stop Flex Services when they become idle (there have been no requests to them for a certain time period). This does not work well with long-running services, you want them to run indefinitely and do whatever processing they are doing.
+By default, the Kinvey runtime stops Flex Services when they become idle (there have been no requests to them for a certain time period). This does not work well with long-running services, as you want them to run indefinitely and do whatever processing they are doing without being interrupted.
 
 You need to contact Kinvey Support to disable idling for Flex Services that you plan to use as long-running.
 
 ## Graceful Shutdown
-Even if you have idling disabled, your Flex Service will sometimes be stopped and then started again. This happens because of various runtime updates that we release or because of internal rebalancing of resources. This does not happen often, but you still need to handle it.
+Even if you have idling disabled, your Flex Service will sometimes be stopped and then started again. This happens because of various runtime updates or internal rebalancing of resources. It does not happen often, but you still need to handle it.
 
 This sample Flex Service incorporates code for graceful shutdown.
 
