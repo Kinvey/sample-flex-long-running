@@ -25,6 +25,6 @@ This Flex service requires a Kafka server to be accessible and a Kafka topic to 
 
 ## Testing
 You can test this Flex Service locally, without deploying it to Kinvey. To do that you just start the node.js application:
-    node .
+> node .
 
 Please check out the documentation for more information on [local testing](https://devcenter.kinvey.com/nativescript/guides/flexservice-runtime#testing-locally).
