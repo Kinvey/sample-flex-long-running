@@ -18,7 +18,7 @@ Even if you have idling disabled, your Flex Service will sometimes be stopped an
 This sample Flex Service incorporates code for graceful shutdown.
 
 ## Implementation
-This Flex Service uses the kafkajs module to consume and produce Kafka messages. It subscribes to topics and then sends messages to this same topic every 1 second. The service also intercepts shutdown signals and exits gracefully, waiting for all messages that are already being processed to finish processing. A 500-2000 ms delay is introduced on purpose in the processing of the messages so that graceful shutdown can be easily understood and tested.
+This Flex Service uses the kafkajs module to consume and produce Kafka messages. It subscribes to a topic and then sends messages to this same topic every 1 second. The service also intercepts shutdown signals and exits gracefully, waiting for all messages that are already being processed to finish processing. A 500-2000 ms delay is introduced on purpose in the processing of the messages so that graceful shutdown can be easily understood and tested.
 
 ## Prerequisites
 This Flex service requires a Kafka server to be accessible and a Kafka topic to be created.
