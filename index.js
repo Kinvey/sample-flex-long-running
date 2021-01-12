@@ -72,7 +72,7 @@ async function processKafkaMessage({ message }) {
   console.log(`Message received: ${message.value}`);
 
   // Simulating processing that takes some time
-  const timeForProcessing = Math.floor(Math.random() * 2000) + 500;
+  const timeForProcessing = Math.round(Math.random() * 7000) + 500;
   setTimeout(
     () => {
       console.log(`Message processed: ${message.value}`);
@@ -102,16 +102,18 @@ async function uninitializeKafka() {
 
 // Wait for all messages to be processed
 async function awaitQueueDrain() {
+  console.log(`Awaiting processing queue to drain. Messages in queue: ${processQueue}`);
+
   return new Promise((resolve) => {
     const intervalId = setInterval(() => {
       if (processQueue > 0) {
-        console.log(`Waiting on messages to be processed: ${processQueue}`);
+        console.log(`Messages in queue: ${processQueue}`);
         return;
       }
       console.log('All messages processed!');
       clearInterval(intervalId);
       resolve();
-    }, 500);
+    }, 1000);
   });
 }
 
@@ -144,8 +146,12 @@ function attachGracefulShutdownHandlers() {
     handlersByEventName[eventName] = process.listeners(eventName);
     process.removeAllListeners(eventName);
     process.on(eventName, async eventData => {
+      const isAnUnhandledError = !eventName.startsWith('SIG');
+      if (isAnUnhandledError) {
+        console.log(`An ${eventName} occurred: ${eventData}`);
+      }
       await shutDownGracefully({ eventName, cause: eventData });
-      if (!eventName.startsWith('SIG')) { // on an unhandled error, trigger the Flex SDK graceful shutdown manually
+      if (isAnUnhandledError) { // trigger the Flex SDK graceful shutdown manually
         handlersByEventName.SIGINT.forEach(handler => handler('SIGINT'));
       }
     });
